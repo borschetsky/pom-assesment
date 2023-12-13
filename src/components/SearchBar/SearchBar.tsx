@@ -81,8 +81,8 @@ const SearchBar = () => {
       <div className="input-wrapper">
         <input 
           className="search-input"
-          aria-label="Search for a place on the map" 
-          placeholder="Enter place name or address"
+          aria-label="Search" 
+          placeholder="start typing"
           type="text"
           onChange={handleOnSearchChange}
           value={searchTerm}
