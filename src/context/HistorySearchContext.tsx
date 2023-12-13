@@ -12,6 +12,16 @@ const HistorySearchContext = ({ children }: {
   const [history, setHistory ] = useState<Record<string, Person>>({})
 
   useEffect(() => {
+    const backup = localStorage.getItem(HISTORY);
+    if (backup) {
+      setHistory(JSON.parse(backup))
+    }
+  }, []);
+
+  useEffect(() => {
+     if (Object.keys(history).length === 0) {
+      return;
+     }
     localStorage.setItem(HISTORY, JSON.stringify(history));
   }, [history]);
   

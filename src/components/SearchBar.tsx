@@ -8,10 +8,7 @@ import useDebouncedCallback from '../hooks/useDebounce';
 import ResultItem from './ResultItem/ResultItem';
 import './SearchBar.scss';
 
-type Props = {
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-const SearchBar = ({ onChange }: Props) => {
+const SearchBar = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm ] = useState('');
   const [ result, setResult ] = useState<PersonResponse | undefined>(undefined);
@@ -33,6 +30,10 @@ const SearchBar = ({ onChange }: Props) => {
   },[])
   
   const handlePeopleSearch = async(term: string) => {
+    if(term.length === 0) {
+      setResult(undefined);
+      return;
+    }
     setIsLoading(true)
     const people = await peopleSearch(term);
     setResult(people);
@@ -45,16 +46,12 @@ const SearchBar = ({ onChange }: Props) => {
     const { value } = e.target;
     setSearchTerm(value);
     setIsVisible(true);
-    if (value === '') {
-      setResult(undefined)
-      return;
-    } else {
-      handleDebounce(value)
-    }
+    handleDebounce(value)
   };
   
   const handleClearSearch = (e: React.MouseEvent<HTMLDivElement>) => {
     setSearchTerm('');
+    setResult(undefined)
   };
 
   const handleItemClick = (person: Person) => {
@@ -72,8 +69,8 @@ const SearchBar = ({ onChange }: Props) => {
 
   const results = result
     ? result.results
-    : context?.history && Object.entries(context?.history).map(([key, value]) => value);
-
+    : context?.history
+      && Object.entries(context?.history).map(([key, value]) => value).slice(0, 9);
   return (
     <div className="searchbox" onClick={handleSearchClick} ref={ref}>
       <div className="input-wrapper">
