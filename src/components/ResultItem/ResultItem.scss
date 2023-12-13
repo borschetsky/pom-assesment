@@ -1,0 +1,30 @@
+.result-item-container{
+  height: 30px;
+  color: black;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #dcdcdc;
+  }
+  .icon{
+    display: flex;
+    flex: 1;
+  }
+  .result{
+    display: flex;
+    flex: 15;
+  }
+  .remove-icon {
+    flex: 2;
+    &:hover {
+      svg{
+
+        fill: blue
+      }
+    }
+  }
+}

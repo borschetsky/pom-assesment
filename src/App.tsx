@@ -30,8 +30,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <input type="text" value={searchTerm} onChange={handleOnSearchChange} autoFocus/>
-        <SearchBar />
+        <SearchBar onChange={handleOnSearchChange}/>
        { result && result.results.map((res) => <p key={res.name}>{ res.name }</p>)}
       </header>
     </div>
