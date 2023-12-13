@@ -1,6 +1,6 @@
 import './App.scss';
 
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBar/SearchBar';
 
 function App() {
   

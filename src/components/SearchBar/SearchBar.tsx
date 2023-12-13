@@ -1,11 +1,11 @@
 import CloseIcon from '@mui/icons-material/Close';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { peopleSearch } from '../api';
-import { Person, PersonResponse } from '../api/types';
-import { HistoryContext } from '../context/HistorySearchContext';
-import useDebouncedCallback from '../hooks/useDebounce';
-import ResultItem from './ResultItem/ResultItem';
+import { peopleSearch } from '../../api';
+import { Person, PersonResponse } from '../../api/types';
+import { HistoryContext } from '../../context/HistorySearchContext';
+import useDebouncedCallback from '../../hooks/useDebounce';
+import ResultItem from '../ResultItem/ResultItem';
 import './SearchBar.scss';
 
 const SearchBar = () => {
@@ -16,8 +16,8 @@ const SearchBar = () => {
   const [isLoading, setIsLoading ] = useState(false);
   const context = useContext(HistoryContext);
 
-  const handleClickOutside = (e: any) => {
-    if(ref &&  ref.current && !ref.current.contains(e.target)){
+  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    if(ref &&  ref.current && !ref.current.contains((e.target as Node))){
       setIsVisible(false)
     }
   }
@@ -35,9 +35,14 @@ const SearchBar = () => {
       return;
     }
     setIsLoading(true)
-    const people = await peopleSearch(term);
-    setResult(people);
-    setIsLoading(false)
+    try {
+      const people = await peopleSearch(term);
+      setResult(people);
+    } catch (error) {
+        console.log(error);
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   const handleDebounce = useDebouncedCallback((value) => handlePeopleSearch(value), 200);
